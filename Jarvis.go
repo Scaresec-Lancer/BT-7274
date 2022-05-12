@@ -21,8 +21,8 @@ func Weather() {
 
 }
 
+//做GET请求的函数
 func DoHttpGetRequest(url string) (rlt string) {
-
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -38,8 +38,8 @@ func DoHttpGetRequest(url string) (rlt string) {
 	return k
 }
 
+//读取CSV的函数
 func ReadCsv() {
-	//准备读取文件
 	fileName := "map_code\\adcode.csv"
 	fs1, _ := os.Open(fileName)
 	content, _ := csv.NewReader(fs1).ReadAll()
@@ -48,10 +48,10 @@ func ReadCsv() {
 	for _, row := range content {
 		j = append(j, row)
 	}
-
 }
 
 func main() {
 	fmt.Println("Hello,sir!")
 	ReadCsv()
+	CheckServer()
 }
