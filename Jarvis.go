@@ -1,17 +1,22 @@
 package main
 
 import (
-	"encoding/csv"
+	"bufio"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"net/http"
 	"os"
+	"strings"
 )
 
 var (
-	k string
-	j [][]string
+	k    string
+	j    [][]string
+	b    []string
+	l    string
+	Data map[interface{}]interface{}
 )
 
 //做GET请求的函数
@@ -34,21 +39,36 @@ func HttpGet(url string) (rlt string) {
 //读取CSV的函数
 func ReadCsv() {
 	fileName := "map_code\\adcode.csv"
-	fs1, _ := os.Open(fileName)
-	content, _ := csv.NewReader(fs1).ReadAll()
-	defer fs1.Close()
+	// 创建句柄
+	fi, err := os.Open(fileName)
+	if err != nil {
+		panic(err)
+	}
 
-	for _, row := range content {
-		j = append(j, row)
+	// 创建 Reader
+	r := bufio.NewReader(fi)
+	Data = make(map[interface{}]interface{})
+	for {
+		line, err := r.ReadString('\n')
+		line = strings.TrimSpace(line)
+		if err != nil && err != io.EOF {
+			panic(err)
+		}
+		if err == io.EOF {
+			break
+		}
+		b = strings.Split(line, ",")
+		Data[b[0]] = b[1]
+
 	}
 }
 
 func main() {
-	Weather_url := "https://restapi.amap.com/v3/weather/weatherInfo?city=" + "" + "&key=c019f803910fb10b03043c50116b9be5"
-	IP_url := "https://restapi.amap.com/v3/ip?output=xml&key=538f2f4c317fe3031b9e87bc38722a0a"
-	Wr := HttpGet(Weather_url)
-	Ir := HttpGet(IP_url)
+
 	fmt.Println("Hello,sir!")
 	CheckServer()
-	fmt.Println(Wr, Ir)
+	ReadCsv()
+	l = "中华人民共和国"
+	fmt.Println(Data[l])
+
 }
