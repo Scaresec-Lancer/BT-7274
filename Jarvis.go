@@ -14,15 +14,8 @@ var (
 	j [][]string
 )
 
-//查询天气的函数,用到了DoHttpGetRequest函数，高德API只允许Get请求
-func Weather() {
-	weather_result := DoHttpGetRequest("https://restapi.amap.com/v3/weather/weatherInfo?key=c019f803910fb10b03043c50116b9be5&city=110101")
-	fmt.Println(weather_result)
-
-}
-
 //做GET请求的函数
-func DoHttpGetRequest(url string) (rlt string) {
+func HttpGet(url string) (rlt string) {
 	resp, err := http.Get(url)
 	if err != nil {
 		log.Fatal(err)
@@ -51,7 +44,11 @@ func ReadCsv() {
 }
 
 func main() {
+	Weather_url := "https://restapi.amap.com/v3/weather/weatherInfo?city=" + "" + "&key=c019f803910fb10b03043c50116b9be5"
+	IP_url := "https://restapi.amap.com/v3/ip?output=xml&key=538f2f4c317fe3031b9e87bc38722a0a"
+	Wr := HttpGet(Weather_url)
+	Ir := HttpGet(IP_url)
 	fmt.Println("Hello,sir!")
-	ReadCsv()
 	CheckServer()
+	fmt.Println(Wr, Ir)
 }
