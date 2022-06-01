@@ -2,16 +2,26 @@ package main
 
 import (
 	"fmt"
-	"net"
+	"runtime"
 	"time"
 )
 
-func CheckServer() {
-	timeout := time.Duration(5 * time.Second)
-	_, err := net.DialTimeout("tcp", "www.baidu.com:443", timeout)
-	if err != nil {
-		fmt.Println("Site unreachable, error: ", err)
-		return
+func getTime() {
+	t1 := time.Now().Hour()
+	fmt.Println("现在是", t1, "时，先生")
+}
+
+func getSys() {
+	sysType := runtime.GOOS
+
+	if sysType == "linux" {
+		fmt.Println("当前运行在Linux平台")
+	} else if sysType == "windows" {
+		fmt.Println("当前运行在Windows平台")
 	}
-	fmt.Println("网络连接正常")
+}
+
+func Hello() {
+	getTime()
+	getSys()
 }
