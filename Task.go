@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"sort"
+)
 
 var (
 	//设置两个切片，一个是未完成，一个是已完成
@@ -66,4 +69,18 @@ func editTask(Time int, Content string) {
 		}
 		fmt.Println("[+] 任务变更完成！")
 	}
+}
+
+//对任务列表根据时间进行排序
+func sortTask() {
+	if len(Undone) > 1 {
+		sort.Slice(Undone, func(i, j int) bool {
+			return Undone[i].Time > Undone[j].Time
+		})
+	}
+}
+
+//展示任务列表
+func showTask() {
+	fmt.Printf("%-10s %-20s", "时间", "内容")
 }
