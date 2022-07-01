@@ -3,9 +3,15 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"net/http"
 	"os"
 	"path/filepath"
 )
+
+func GetWithHttp(uri string) (code int) {
+	response, _ := http.Get(uri)
+	return response.StatusCode
+}
 
 func writeFile(str string) {
 	filepath := "./dict.txt"
@@ -36,4 +42,7 @@ func main() {
 		x += (value + "\n")
 	}
 	writeFile(x)
+
+	s := GetWithHttp("https://baidu.com/")
+	fmt.Println(s)
 }
