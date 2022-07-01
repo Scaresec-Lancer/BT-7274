@@ -43,6 +43,13 @@ func main() {
 	}
 	writeFile(x)
 
-	s := GetWithHttp("https://baidu.com/")
-	fmt.Println(s)
+	for _, value := range path_list {
+		s := GetWithHttp("http://localhost:3000/" + value)
+		if s == 200 {
+			fmt.Printf("[+] %v存在\n", value)
+		} else {
+			fmt.Printf("[-] %v不存在\n", value)
+		}
+	}
+
 }
